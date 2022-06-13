@@ -13,6 +13,8 @@ function rebuild_test {
         --exclude "db.sqlite3" \
         . -e ssh "$test_host":tilefy
 
+    rsync -a --progress --delete-after custom_logos/* "$test_host":docker/volume/tilefy/data/logos
+    rsync -a --progress --delete-after custom_fonts/* "$test_host":docker/volume/tilefy/data/fonts
     rsync --progress --ignore-existing docker-compose.yml -e ssh "$test_host":docker
     rsync --progress tiles.example.yml -e ssh "$test_host":docker/volume/tilefy/data/tiles.yml
 
