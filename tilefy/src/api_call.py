@@ -44,7 +44,7 @@ class Api:
         """make call using url from tile_config"""
         response = self.make_request()
         key_match = self.walk_response(response)
-        if not key_match:
+        if not key_match and not key_match == 0:
             print(f"failed to result with key_map: {response}")
             raise ValueError
 
