@@ -1,0 +1,24 @@
+version: '3.3'
+
+services:
+  tilefy:
+    container_name: tilefy
+    restart: always
+    image: bbilly1/tilefy
+    volumes:
+      - ./volume/tilefy/data:/data
+    ports:
+      - 8000:8000
+    environment:
+      - TZ=America/New_York
+      - TILEFY_HOST=http://tilefy.local
+      - REDIS_HOST=tilefy-redis
+      - REDIS_PORT=6379
+  tilefy-redis:
+    image: redislabs/rejson
+    container_name: tilefy-redis
+    restart: always
+    expose:
+      - "6379"
+    volumes:
+      - ./volume/tilefy/redis:/data

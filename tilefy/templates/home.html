@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Tilefy Home</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="boxed-content">
+            <div class="banner">
+                <img src="/static/img/tilefy-banner.png" alt="tilefy banner">
+            </div>
+            <h1>Create Beautiful Tiles for your Project</h1>
+            <div class="tiles">
+                {% if tiles %}
+                    {% for tile in tiles %}
+                        <div class="tile">
+                            <div class="tile-preview">
+                                <img src="/t/{{ tile.tile_slug }}.png" alt="{{ tile.tile_slug }} preview">
+                            </div>
+                            <div class="tile-meta">
+                                <div>
+                                    <h2>{{ tile.tile_name }}</h2>
+                                    <p>{{ tile.height }} x {{ tile.width }} px</p>
+                                </div>
+                                <div class="color-box">
+                                    <div class="color-item">
+                                        <div class="color-preview" data-id="{{ tile.background_color }}">
+                                        </div>
+                                        <p>Background Color</p>
+                                    </div>
+                                    <div class="color-item">
+                                        <div class="color-preview" data-id="{{ tile.font_color }}">
+                                        </div>
+                                        <p>Font Color</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tile-links">
+                                <div class="tile-link-item">
+                                    <h3>URL</h3>
+                                    <a href="{{ host_name }}/t/{{ tile.tile_slug }}.png">{{ host_name }}/t/{{ tile.tile_slug }}.png</a>
+                                </div>
+                                <div class="tile-link-item">
+                                    <h3>HTML</h3>
+                                    <p>{{ '<a href="https://www.tilefy.me" target="_blank"><img src="' }}{{ host_name }}/t/{{ tile.tile_slug }}.png{{ '" alt="' }}{{ tile.tile_slug }}{{ '" title="' }}{{ tile.tile_name }}{{ '" height="' }}{{ tile.height // 2 }}{{ '" width="' }}{{ tile.width // 2 }}{{ '"/></a>' }}</p>
+                                </div>
+                                <div class="tile-link-item">
+                                    <h3>Markdown</h3>
+                                    <p>[![{{ tile.tile_slug }}]({{ host_name }}/t/{{ tile.tile_slug }}.png)](https://www.tilefy.me)
+                                </div>
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                <div class="tile banner">
+                    <p>No tiles defined in <i>tiles.yml</i>.</p>
+                    <p>Take a look at the Readme on Github to get started: <a href="https://github.com/bbilly1/tilefy" target="_blank">https://github.com/bbilly1/tilefy</a></p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="boxed-content">
+            <span>© <script type="text/javascript">document.write(new Date().getFullYear());</script> Tilefy v0.0.1 </span><span><a href="https://github.com/bbilly1/tilefy" target="_blank">GitHub</a> | <a href="https://hub.docker.com/r/bbilly1/tilefy" target="_blank">Docker Hub</a></span>
+        </div>
+    </div>
+    <script type="text/javascript" src="/static/script.js"></script>
+</body>
+</html>

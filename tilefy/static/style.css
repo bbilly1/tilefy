@@ -1,0 +1,140 @@
+:root {
+    --main-bg: #272d32;
+    --bg-alt: #171717;
+    --accent-1: #e5b534;
+    --accent-2: #f47834;
+    --accent-3: #da2934;
+    --font-main: #c1c1c1;
+}
+
+@font-face {
+    font-family: 'CarlitoRegular';
+    src: url('/static/font/CarlitoRegular.woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'CarlitoItalic';
+    src: url('/static/font/CarlitoItalic.woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'CarlitoBold';
+    src: url('/static/font/CarlitoBold.woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background-color: var(--main-bg);
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+h1 {
+    color: var(--accent-1);
+    font-family: CarlitoBold, serif;
+    text-align: center;
+    font-size: 2.2rem;
+    margin-top: 20px;
+}
+
+h2 {
+    color: var(--accent-2);
+    font-family: CarlitoBold, serif;
+    font-weight: bold;
+    font-size: 2rem;
+    margin: 20px 0 5px 0;
+}
+
+h3 {
+    font-family: CarlitoItalic, sans-serif;
+    color: var(--accent-3);
+    font-size: 1.4rem;
+}
+
+p, a, span {
+    font-family: CarlitoRegular, sans-serif;
+    color: var(--font-main);
+    font-size: 1.2rem;
+}
+
+.boxed-content {
+    max-width: 1000px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.footer {
+    margin: 0;
+    padding: 20px 0;
+    background-color: var(--bg-alt);
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+.banner {
+    text-align: center;
+}
+
+.banner img {
+    width: 80%;
+}
+
+.tile-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.tile {
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: var(--bg-alt);
+}
+
+.tile-preview {
+    text-align: center;
+}
+
+.tile-preview img {
+    max-width: 100%;
+}
+
+.color-box {
+    display: flex;
+    align-items: center;
+}
+
+.color-item {
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+
+.color-preview {
+    width: 70px;
+    height: 40px;
+    background-color: white;
+    margin-right: 1rem;
+}
+
+.tile-links {
+    margin-top: 1rem;
+}
+
+.tile-link-item {
+    padding: 5px 0;
+}

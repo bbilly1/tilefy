@@ -1,0 +1,69 @@
+---
+
+tiles:
+  tubearchivist-docker:
+    tile_name: Tube Archivist Docker Pulls
+    background_color: "#00202f"
+    font_color: "#97d4c8"
+    width: 1200
+    height: 300
+    logos:
+      - "logos/tube-archivist.png"
+      - "docker.png"
+    url: https://hub.docker.com/v2/repositories/bbilly1/tubearchivist/
+    key_map: 
+      - pull_count
+    recreate: "0 * * * *"
+  tubearchivist-github-star:
+    tile_name: Tube Archivist GitHub Stars
+    background_color: "#00202f"
+    font_color: "#97d4c8"
+    width: 1200
+    height: 300
+    logos:
+      - "logos/tube-archivist.png"
+      - "github-star.png"
+    url: https://api.github.com/repos/tubearchivist/tubearchivist
+    key_map: 
+      - stargazers_count
+    humanize: false
+    font: ttf-bitstream-vera/VeraMono.ttf
+    recreate: "1 * * * *"
+  tubearchivist-firefox:
+    tile_name: TA Companion Firefox users
+    background_color: "#00202f"
+    font_color: "#97d4c8"
+    width: 1200
+    height: 300
+    logos:
+      - "logos/tube-archivist.png"
+      - "firefox.png"
+    url: https://addons.mozilla.org/api/v5/addons/addon/tubearchivist-companion/
+    key_map: 
+      - average_daily_users
+  tubearchivist-chrome:
+    tile_name: TA Companion Chrome users
+    background_color: "#00202f"
+    font_color: "#97d4c8"
+    width: 1200
+    height: 300
+    logos:
+      - "logos/tube-archivist.png"
+      - "google-chrome.png"
+    plugin:
+      name: chrome-extension-users
+      id: jjnkmicfnfojkkgobdfeieblocadmcie
+  tubearchivist-last-action:
+    tile_name: TA last GitHub Action status
+    background_color: "#00202f"
+    font_color: "#97d4c8"
+    width: 1200
+    height: 300
+    logos:
+      - "github-actions.png"
+    url: https://api.github.com/repos/tubearchivist/tubearchivist/actions/runs?branch=master&event=push&per_page=1
+    key_map:
+      - "workflow_runs"
+      - 0
+      - "conclusion"
+    recreate: on_demand
