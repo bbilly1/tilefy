@@ -70,13 +70,29 @@ function docker_publish {
     sudo docker buildx build \
         --platform linux/amd64,linux/arm64 \
         -t bbilly1/tilefy \
-        -t bbilly1/tilefy:"$VERSION" --push .
+        -t bbilly1/tilefy:"$VERSION" \
+        -t bbilly1/tilefy:unstable --push .
 
     # create release tag
     echo "commits since last version:"
     git log "$(git describe --tags --abbrev=0)"..HEAD --oneline
     git tag -a "$VERSION" -m "new release version $VERSION"
     git push all "$VERSION"
+
+}
+
+# publish unstable tag to docker
+function sync_unstable {
+
+    if [[ $(systemctl is-active docker) != 'active' ]]; then
+        echo "starting docker"
+        sudo systemctl start docker
+    fi
+
+    # start amd64 build
+    sudo docker buildx build \
+        --platform linux/amd64 \
+        -t bbilly1/tilefy:unstable --push .
 
 }
 
@@ -89,8 +105,10 @@ elif [[ $1 == "validate" ]]; then
     validate "$2"
 elif [[ $1 == "docker" ]]; then
     docker_publish
+elif [[ $1 == "unstable" ]]; then
+    sync_unstable
 else
-    echo "valid options are: test | docker "
+    echo "valid options are: test | docker | unstable"
 fi
 
 ##
