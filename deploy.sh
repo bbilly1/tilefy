@@ -74,7 +74,7 @@ function docker_publish {
     echo "commits since last version:"
     git log "$(git describe --tags --abbrev=0)"..HEAD --oneline
     git tag -a "$VERSION" -m "new release version $VERSION"
-    git push origin "$VERSION"
+    git push all "$VERSION"
 
 }
 
