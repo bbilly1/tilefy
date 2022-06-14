@@ -2,6 +2,9 @@
 
 <center><h1>Create beautiful tiles for your project</h1></center>
 
+<a href="https://www.tilefy.me" target="_blank"><img src="https://tiles.tilefy.me/t/tilefy-github-stars.png" alt="tilefy-github-stars" title="Tilefy GitHub Stars" height="50" width="200"/></a>
+<a href="https://www.tilefy.me" target="_blank"><img src="https://tiles.tilefy.me/t/tilefy-docker.png" alt="tilefy-docker" title="Tilefy Docker Pulls" height="50" width="200"/></a>
+
 ## Table of contents
 - [Core functionality](#core-functionality)
 - [Screenshots](#screenshots)
