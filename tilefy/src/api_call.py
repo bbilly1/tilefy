@@ -53,7 +53,7 @@ class Api:
     def make_request(self):
         """make request"""
         url = self.tile_config["url"]
-        response = requests.get(url, timeout=1)
+        response = requests.get(url, timeout=2)
         if not response.ok:
             print(f"failed to make request: {url}")
             raise ValueError
