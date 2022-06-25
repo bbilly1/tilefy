@@ -4,7 +4,7 @@ import hashlib
 import os
 
 from src.template import create_all_tiles
-from src.tilefy_redis import TilefyRedis
+from src.tilefy_redis import TilefyRedis, load_yml
 
 
 class Watcher:
@@ -21,6 +21,7 @@ class Watcher:
         modified = self.is_changed()
         if modified:
             print(f"{self.FILE_PATH}: modified")
+            load_yml()
             create_all_tiles()
             self._store_last()
 
