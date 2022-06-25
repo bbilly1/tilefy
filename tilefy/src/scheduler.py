@@ -6,6 +6,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from src.template import create_single_tile
 from src.tilefy_redis import TilefyRedis
+from src.watcher import watch_yml
 
 
 class TilefyScheduler:
@@ -29,6 +30,7 @@ class TilefyScheduler:
         self.add_job_store()
         jobs = self.build_jobs()
         self.add_jobs(jobs)
+        self.add_watcher()
 
         self.scheduler.start()
 
@@ -73,3 +75,13 @@ class TilefyScheduler:
                 replace_existing=True,
             )
             print(f"{job_name}: Add job {cron_tab}")
+
+    def add_watcher(self):
+        """add watcher to jobs"""
+        self.scheduler.add_job(
+            watch_yml,
+            "interval",
+            seconds=5,
+            id="watcher",
+            replace_existing=True,
+        )

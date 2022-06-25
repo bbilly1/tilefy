@@ -41,6 +41,10 @@ class TilefyRedis(RedisBase):
 
         return False
 
+    def del_message(self, key):
+        """delete message from redis"""
+        self.conn.execute_command("JSON.DEL", self.NAME_SPACE + key)
+
 
 def load_yml():
     """read yml file"""
