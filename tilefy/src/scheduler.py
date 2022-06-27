@@ -58,7 +58,6 @@ class TilefyScheduler:
 
         all_jobs = self.scheduler.get_jobs()
         for job in all_jobs:
-            print(job)
             if job.id == "watcher":
                 continue
             self.scheduler.remove_job(job.id)
