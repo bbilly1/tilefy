@@ -2,6 +2,7 @@
 
 from os import environ
 
+from apscheduler.jobstores.base import JobLookupError
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from src.template import create_single_tile
@@ -60,7 +61,10 @@ class TilefyScheduler:
         for job in all_jobs:
             if job.id == "watcher":
                 continue
-            self.scheduler.remove_job(job.id)
+            try:
+                self.scheduler.remove_job(job.id)
+            except JobLookupError:
+                print(f"failed to remove job with id {job.id}")
 
     def build_jobs(self):
         """build list of expected jobs"""
