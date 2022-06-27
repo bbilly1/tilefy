@@ -1,9 +1,11 @@
 ![Tilefy](assets/tilefy-banner.jpg?raw=true "Tilefy Banner")  
 
-<center><h1>Create beautiful tiles for your project</h1></center>
+<h1 align="center">Create beautiful tiles for your project</h1>
 
+<div align="center">
 <a href="https://www.tilefy.me" target="_blank"><img src="https://tiles.tilefy.me/t/tilefy-github-stars.png" alt="tilefy-github-stars" title="Tilefy GitHub Stars" height="50" width="200"/></a>
 <a href="https://www.tilefy.me" target="_blank"><img src="https://tiles.tilefy.me/t/tilefy-docker.png" alt="tilefy-docker" title="Tilefy Docker Pulls" height="50" width="200"/></a>
+</div>
 
 ## Table of contents
 - [Core functionality](#core-functionality)
