@@ -13,7 +13,7 @@ tiles:
     url: https://hub.docker.com/v2/repositories/bbilly1/tubearchivist/
     key_map: 
       - pull_count
-    recreate: "0 * * * *"
+    recreate: "1d"
   tubearchivist-github-star:
     tile_name: Tube Archivist GitHub Stars
     background_color: "#00202f"
@@ -28,7 +28,7 @@ tiles:
       - stargazers_count
     humanize: false
     font: ttf-bitstream-vera/VeraMono.ttf
-    recreate: "1 * * * *"
+    recreate: "12h"
   tubearchivist-firefox:
     tile_name: TA Companion Firefox users
     background_color: "#00202f"

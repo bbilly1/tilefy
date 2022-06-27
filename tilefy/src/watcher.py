@@ -3,9 +3,9 @@
 import hashlib
 import os
 
-from src.scheduler_rebuild import rebuild
+from src.config_parser import ConfigFile
 from src.template import create_all_tiles
-from src.tilefy_redis import TilefyRedis, load_yml
+from src.tilefy_redis import TilefyRedis
 
 
 class Watcher:
@@ -22,10 +22,9 @@ class Watcher:
         modified = self.is_changed()
         if modified:
             print(f"{self.FILE_PATH}: modified")
-            load_yml()
+            ConfigFile().load_yml()
             create_all_tiles()
             self._store_last()
-            rebuild()
 
     def is_changed(self):
         """check if file has changed"""

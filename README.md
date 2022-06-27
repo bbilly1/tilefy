@@ -38,11 +38,11 @@ Main Python application to create and serve your tiles, built with Flask.
 - Set your timezone with the `TZ` environment variable to configure the scheduler, defaults to *UTC*.
 
 ### Redis JSON
-Functions as a cache and holds the scheduler data storage and history.
+Functions as a cache, holds your configurations.
 - Needs a volume at **/data** to store your configurations permanently.
 
 ## Configuration
-Create a yml config file where you have mounted your `/data/tiles.yml` folder. Take a look at the provided `tiles.example.yml` for the basic syntax. *tiles* is the top level key, list your tiles below. The main key of the tile is your slug and will become your url, so use no spaces or special characters. 
+Create a yml config file at `/data/tiles.yml`. Take a look at the provided `tiles.example.yml` for the basic syntax. *tiles* is the top level key, list your tiles below. The main key of the tile is your slug and will become your url, so use no spaces or special characters. 
 
 ### tile_name
 Give your tile a unique human readable name.
@@ -76,10 +76,18 @@ Provide your custom font by adding them to `/data/fonts`, in TTF format only and
 Defaults to `true` for all numbers. Shorten long numbers in to a more human readable string, like *14502* to *14.5K*.
 
 ### recreate: optional
-Recreate tiles periodically, provide your custom schedule as a cron tab or use `on_demand` to recreate the tile for every request. Defaults to `0 0 * * *` aka every day at midnight. Be aware of any rate limiting and API quotas you might face with a too frequent schedule. 
-Note:
-- There is automatically a random jitter for cron tab of 15 secs to avoid parallel requests for a lot of tiles.
-- There is a failsafe in place to block recreating tiles faster than every 60 seconds. 
+Set the lifetime of your tiles and define when the tile will be recreated if requested. Defaults to *1d*, e.g. recreate every day.
+
+Valid options:
+- *120*: A number indicates seconds till expire
+- *10min*: Minutes till expire
+- *2h*: Hours till expire
+- *1d*: Days till expire
+- *on_demand*: Will recreate for every request.
+
+Note: 
+- Be aware of any rate limiting and API quotas you might face with a too short expiration.
+- There is a failsafe in place to block recreating tiles faster than every 60 seconds.
 
 ## API requests
 Get values from a public API by providing the url and key_map.

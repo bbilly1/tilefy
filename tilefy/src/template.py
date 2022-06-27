@@ -115,12 +115,19 @@ def create_all_tiles():
 
 def create_single_tile(tile_slug, tile_config):
     """create a single tile"""
-    key = f"lock:{tile_slug}"
-    locked = TilefyRedis().get_message(key)
-    if locked:
-        print(f"{tile_slug}: skip rebuild within 60secs")
-        return
-
     TileImage(tile_slug, tile_config).build_tile()
-    message = {"recreate": int(datetime.now().strftime("%s"))}
-    TilefyRedis().set_message(key, message, expire=60)
+
+    now = datetime.now()
+    date_format = "%Y-%m-%d %H:%M:%S"
+    expire_sec = tile_config["recreate_sec"]
+    expire_epoch = int(now.strftime("%s")) + expire_sec
+    expire_str = datetime.fromtimestamp(expire_epoch).strftime(date_format)
+
+    message = {
+        "recreated": int(now.strftime("%s")),
+        "recreated_str": now.strftime(date_format),
+        "expire": expire_epoch,
+        "expire_str": expire_str,
+    }
+
+    TilefyRedis().set_message(f"lock:{tile_slug}", message, expire=expire_sec)

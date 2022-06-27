@@ -2,16 +2,21 @@
 
 import os
 
-from flask import Flask, render_template, send_from_directory
-from src.scheduler import TilefyScheduler
-from src.template import create_all_tiles, create_single_tile
-from src.tilefy_redis import TilefyRedis, load_yml
+from apscheduler.schedulers.background import BackgroundScheduler
+from flask import Flask, Response, render_template, send_from_directory
+from src.cache import CacheManager
+from src.config_parser import ConfigFile
+from src.template import create_all_tiles
+from src.tilefy_redis import TilefyRedis
+from src.watcher import watch_yml
 
 app = Flask(__name__)
-
-load_yml()
-TilefyScheduler().setup_schedule()
+ConfigFile().load_yml()
 create_all_tiles()
+
+scheduler = BackgroundScheduler(timezone=os.environ.get("TZ", "UTC"))
+scheduler.add_job(watch_yml, "interval", seconds=5)
+scheduler.start()
 
 
 @app.route("/")
@@ -33,13 +38,16 @@ def home():
 def get_tile(tile_path):
     """return tile as image"""
     tilename = os.path.splitext(tile_path)[0]
-    tile_config = TilefyRedis().get_message("config", path=f"tiles.{tilename}")
-    recreate = tile_config.get("recreate")
-    if recreate == "on_demand":
-        create_single_tile(tilename, tile_config)
+
+    cache_handler = CacheManager(tilename)
+    if not cache_handler.tile_config:
+        print(f"tile not found: {tilename}")
+        return Response("tile not found", status=404)
+
+    cache_handler.validate()
 
     return send_from_directory(
         directory="/data/tiles",
         path=tile_path,
-        cache_timeout=100,
+        cache_timeout=60,
     )
