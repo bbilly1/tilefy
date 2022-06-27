@@ -1,0 +1,16 @@
+name: lint_python
+on: [pull_request, push]
+jobs:
+  lint_python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: pip install --upgrade pip wheel
+      - run: pip install bandit black codespell flake8 flake8-bugbear
+                         flake8-comprehensions isort
+      - run: black --check --diff --line-length 79 .
+      - run: codespell
+      - run: flake8 . --count --max-complexity=10 --max-line-length=79
+                      --show-source --statistics
+      - run: isort --check-only --line-length 79 --profile black .
