@@ -3,6 +3,7 @@
 import hashlib
 import os
 
+from src.scheduler_rebuild import rebuild
 from src.template import create_all_tiles
 from src.tilefy_redis import TilefyRedis, load_yml
 
@@ -24,6 +25,7 @@ class Watcher:
             load_yml()
             create_all_tiles()
             self._store_last()
+            rebuild()
 
     def is_changed(self):
         """check if file has changed"""

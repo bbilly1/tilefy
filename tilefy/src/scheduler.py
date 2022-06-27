@@ -15,24 +15,31 @@ class TilefyScheduler:
     CRON_DEFAULT = "0 0 * * *"
 
     def __init__(self):
-        self.scheduler = False
-        self.tiles = False
+        self.scheduler = BackgroundScheduler(timezone=environ.get("TZ", "UTC"))
+        self.add_job_store()
+        self.tiles = self.get_tiles()
 
-    def setup_schedule(self):
-        """startup"""
+    def get_tiles(self):
+        """get all tiles set in config"""
         config = TilefyRedis().get_message("config")
         if not config:
             print("no tiles defined in tiles.yml")
+            return False
+
+        return config["tiles"]
+
+    def setup_schedule(self):
+        """startup"""
+        if not self.tiles:
+            print("no tiles defined in tiles.yml")
             return
 
-        self.tiles = config["tiles"]
-        self.scheduler = BackgroundScheduler(timezone=environ.get("TZ", "UTC"))
-        self.add_job_store()
         jobs = self.build_jobs()
         self.add_jobs(jobs)
         self.add_watcher()
 
-        self.scheduler.start()
+        if not self.scheduler.running:
+            self.scheduler.start()
 
     def add_job_store(self):
         """add jobstore to scheudler"""
@@ -43,6 +50,18 @@ class TilefyScheduler:
             host=environ.get("REDIS_HOST"),
             port=environ.get("REDIS_PORT"),
         )
+
+    def clear_old(self):
+        """remove old jobs before recreating"""
+        if not self.scheduler.running:
+            self.scheduler.start()
+
+        all_jobs = self.scheduler.get_jobs()
+        for job in all_jobs:
+            print(job)
+            if job.id == "watcher":
+                continue
+            self.scheduler.remove_job(job.id)
 
     def build_jobs(self):
         """build list of expected jobs"""
