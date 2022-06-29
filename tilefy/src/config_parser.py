@@ -42,6 +42,7 @@ class ConfigFile:
         """load yml into redis"""
         if not self.exists:
             print("missing tiles.yml")
+            TilefyRedis().del_message("config")
             return
 
         self.get_conf()

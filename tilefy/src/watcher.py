@@ -19,6 +19,9 @@ class Watcher:
 
     def watch(self):
         """watch for changes, call from schedule"""
+        if not os.path.exists(self.FILE_PATH):
+            return
+
         modified = self.is_changed()
         if modified:
             print(f"{self.FILE_PATH}: modified")
