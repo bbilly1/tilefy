@@ -4,9 +4,6 @@ import json
 import os
 
 import redis
-import yaml
-
-TILES_CONFIG = "/data/tiles.yml"
 
 
 class RedisBase:
@@ -41,20 +38,13 @@ class TilefyRedis(RedisBase):
 
         return False
 
+    def get_keys(self, key):
+        """get list of all key matches"""
+        command = f"{self.NAME_SPACE}{key}:*"
+        all_keys = self.conn.execute_command("KEYS", command)
+
+        return [i.decode().split(self.NAME_SPACE)[1] for i in all_keys]
+
     def del_message(self, key):
         """delete message from redis"""
         self.conn.execute_command("JSON.DEL", self.NAME_SPACE + key)
-
-
-def load_yml():
-    """read yml file"""
-
-    if not os.path.exists(TILES_CONFIG):
-        print("missing tiles.yml")
-        return
-
-    with open(TILES_CONFIG, "r", encoding="utf-8") as yml_file:
-        file_content = yml_file.read()
-        config_raw = yaml.load(file_content, Loader=yaml.CLoader)
-
-    TilefyRedis().set_message("config", config_raw)
