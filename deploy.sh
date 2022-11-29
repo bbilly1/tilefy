@@ -5,6 +5,7 @@ test_host="tilefy.local"
 
 function rebuild_test {
     echo "rebuild testing environment"
+    ssh "$test_host" 'mkdir -p {docker/volume/tilefy/data/fonts,docker/volume/tilefy/data/logos}'
     rsync -a --progress --delete-after \
         --exclude ".git" \
         --exclude ".gitignore" \
