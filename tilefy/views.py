@@ -49,5 +49,5 @@ def get_tile(tile_path):
     return send_from_directory(
         directory="/data/tiles",
         path=tile_path,
-        cache_timeout=60,
+        max_age=60,
     )
