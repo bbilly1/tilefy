@@ -67,18 +67,19 @@ function docker_publish {
     echo "build and push $VERSION?"
     read -rn 1
 
+    # multiarch fix
+    sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     # start build
     sudo docker buildx build \
         --platform linux/amd64,linux/arm64 \
         -t bbilly1/tilefy \
-        -t bbilly1/tilefy:"$VERSION" \
-        -t bbilly1/tilefy:unstable --push .
+        -t bbilly1/tilefy:"$VERSION" --push .
 
     # create release tag
     echo "commits since last version:"
     git log "$(git describe --tags --abbrev=0)"..HEAD --oneline
     git tag -a "$VERSION" -m "new release version $VERSION"
-    git push all "$VERSION"
+    git push origin "$VERSION"
 
 }
 
