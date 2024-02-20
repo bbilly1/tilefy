@@ -9,6 +9,8 @@ function rebuild_test {
     rsync -a --progress --delete-after \
         --exclude ".git" \
         --exclude ".gitignore" \
+        --exclude ".mypy_cache" \
+        --exclude ".venv" \
         --exclude "**/cache" \
         --exclude "**/__pycache__/" \
         --exclude "db.sqlite3" \
@@ -67,10 +69,8 @@ function docker_publish {
     echo "build and push $VERSION?"
     read -rn 1
 
-    # multiarch fix
-    sudo docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     # start build
-    sudo docker buildx build \
+    docker buildx build \
         --platform linux/amd64,linux/arm64 \
         -t bbilly1/tilefy \
         -t bbilly1/tilefy:"$VERSION" --push .
@@ -92,8 +92,8 @@ function sync_unstable {
     fi
 
     # start amd64 build
-    sudo docker buildx build \
-        --platform linux/amd64 \
+    docker buildx build \
+        --platform linux/amd64,linux/arm64 \
         -t bbilly1/tilefy:unstable --push .
 
 }
@@ -102,8 +102,6 @@ function sync_unstable {
 if [[ $1 == "test" ]]; then
     rebuild_test
 elif [[ $1 == "validate" ]]; then
-    # check package versions in requirements.txt for updates
-    python version_check.py
     validate "$2"
 elif [[ $1 == "docker" ]]; then
     docker_publish
