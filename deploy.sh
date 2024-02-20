@@ -36,12 +36,12 @@ function validate {
     echo "running black"
     black --diff --color --check -l 79 "$check_path"
     echo "running codespell"
-    codespell --skip="./.git" "$check_path"
+    codespell --skip="./.git,./.venv,./.mypy_cache" "$check_path"
     echo "running flake8"
     flake8 "$check_path" --count --max-complexity=10 --max-line-length=79 \
-        --show-source --statistics
+        --show-source --statistics --exclude ".venv"
     echo "running isort"
-    isort --check-only --diff --profile black -l 79 "$check_path"
+    isort --skip ".venv" --check-only --diff --profile black -l 79 "$check_path"
     printf "    \n> all validations passed\n"
 
 }

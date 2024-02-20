@@ -68,7 +68,7 @@ class Api:
         return response
 
     def plugin(self):
-        """make request with pugin"""
+        """make request with plugin"""
         plugin_name = self.tile_config["plugin"]["name"]
         item_id = self.tile_config["plugin"]["id"]
         if plugin_name == "chrome-extension-users":
