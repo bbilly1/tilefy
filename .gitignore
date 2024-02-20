@@ -1,4 +1,6 @@
 .vscode
+.venv
+.mypy_cache
 __pycache__
 
 # testing logos
