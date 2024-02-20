@@ -1,5 +1,5 @@
 # build requirements
-FROM python:3.10.8-slim-bullseye AS builder
+FROM python:3.11.7-slim-bookworm AS builder
 
 RUN apt-get -y update && \
     apt-get -y install --no-install-recommends \
@@ -11,7 +11,7 @@ RUN pip install --upgrade pip && pip install --user -r requirements.txt
 
 
 # load in main image
-FROM python:3.10.8-slim-bullseye as tilefy
+FROM python:3.11.7-slim-bookworm as tilefy
 ARG INSTALL_DEBUG
 ENV PYTHONUNBUFFERED 1
 
